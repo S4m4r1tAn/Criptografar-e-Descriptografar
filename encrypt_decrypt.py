@@ -45,11 +45,11 @@ def main():
                         key = filekey.read()
                     criptografado = encrypt(text, key)
 
-                    layout3 = [[sg.Text('Resultado:')],
+                    layout3 = [[sg.Text('Texto Criptografado:')],
                                [sg.Multiline(key='-RESULT-', default_text=criptografado.decode(), size=(80, 5))],
                                [sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
 
-                    window3 = sg.Window('Resultado', layout3)
+                    window3 = sg.Window('Resultado_Encrypt', layout3)
 
                     while True:
                         event3, _ = window3.read()
@@ -68,12 +68,12 @@ def main():
                         if event3 == 'Salvar':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
                             if filename:
-                                with open(filename, 'w') as f:
+                                with open(filename, 'wb') as f:
                                     f.write(criptografado)
                         if event3 == 'Download':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
                             if filename:
-                                with open(filename, 'w') as f:
+                                with open(filename, 'wb') as f:
                                     f.write(criptografado.encode())
 
                     window3.close()
@@ -103,11 +103,11 @@ def main():
                         key = filekey.read()
                     descriptografado = decrypt(text, key)
 
-                    layout3 = [[sg.Text('Resultado:')],
+                    layout3 = [[sg.Text('Texto Descriptografado:')],
                                [sg.Multiline(key='-RESULT-', default_text=descriptografado.decode(), size=(80, 5))],
                                [sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
 
-                    window3 = sg.Window('Resultado', layout3)
+                    window3 = sg.Window('Resultado_Decrypt', layout3)
 
                     while True:
                         event3, _ = window3.read()
@@ -116,12 +116,12 @@ def main():
                         if event3 == 'Salvar':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
                             if filename:
-                                with open(filename, 'w') as f:
+                                with open(filename, 'wb') as f:
                                     f.write(descriptografado)
                         if event3 == 'Download':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
                             if filename:
-                                with open(filename, 'w') as f:
+                                with open(filename, 'wb') as f:
                                     f.write(descriptografado.encode())
                         
                     window3.close()
