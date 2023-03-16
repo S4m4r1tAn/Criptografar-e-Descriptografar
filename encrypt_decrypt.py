@@ -1,28 +1,112 @@
 import PySimpleGUI as sg
-import main
-from datetime import date
+from cryptography.fernet import Fernet
 
-sg.theme('SandyBeach')
 
-layout = [[sg.Text('Qual eh o seu nome?'), sg.Input(key='nome')],
-          [sg.Text('Em que ano voce nasceu?'), sg.Input(key='ano')],
-          [sg.Button('Calcular idade'), sg.Button('Sair')],
-          [sg.Text(size=(40, 2), key='output')]]
+def encrypt(text, key):
+    f = Fernet(key)
+    return f.encrypt(text.encode())
 
-window = sg.Window('Calculadora de Idade').Layout(layout)
+def decrypt(text, key):
+    f = Fernet(key)
+    return f.decrypt(text).decode()
 
-while True:
-    event, values = window.Read()
-    
-    if event == 'Sair' or event == sg.WIN_CLOSED:
-        break
-    
-    if event == 'Calcular idade':
-        nome = values['nome']
-        nascimento = int(values['ano'])
-        data_de_hoje = date.today().year
-        idade = data_de_hoje - nascimento
-        output = f'Meu nome eh {nome} e eu tenho {idade} anos.'
-        window['output'].update(output)
+def main():
+    sg.theme('Python')
 
-window.Close()
+    layout = [[sg.Text('Escolha uma opção:')],
+              [sg.Button('Encrypt'), sg.Button('Decrypt')]]
+
+    window = sg.Window('Criptografar/Descriptografar', layout)
+
+    while True:
+        event, _ = window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        if event == 'Encrypt':
+            layout2 = [[sg.Text('Insira o texto a ser criptografado:')],
+                       [sg.Input(key='-TEXT-')],
+                       [sg.Button('Criptografar')]]
+
+            window2 = sg.Window('Encrypt', layout2)
+
+            while True:
+                event2, values2 = window2.read()
+                if event2 == sg.WIN_CLOSED:
+                    break
+                if event2 == 'Criptografar':
+                    text = values2['-TEXT-']
+                    with open('chave.key', 'rb') as filekey:
+                        key = filekey.read()
+                    criptografado = encrypt(text, key)
+
+                    layout3 = [[sg.Text('Resultado:')],
+                               [sg.Input(key='-RESULT-', default_text=criptografado.decode(), size=(80, 5))],
+                               [sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
+
+                    window3 = sg.Window('Resultado', layout3)
+
+                    while True:
+                        event3, _ = window3.read()
+                        if event3 == sg.WIN_CLOSED or event3 == 'Fechar':
+                            break
+                        if event3 == 'Salvar':
+                            filename = sg.popup_get_file('Salvar como', save_as=True)
+                            if filename:
+                                with open(filename, 'w') as f:
+                                    f.write(descriptografado)
+                        if event3 == 'Download':
+                            filename = sg.popup_get_file('Salvar como', save_as=True)
+                            if filename:
+                                with open(filename, 'w') as f:
+                                    f.write(descriptografado.encode())
+
+                    window3.close()
+
+            window2.close()
+
+        if event == 'Decrypt':
+            layout2 = [[sg.Text('Insira o texto a ser descriptografado:')],
+                       [sg.Input(key='-TEXT-')],
+                       [sg.Button('Descriptografar')]]
+
+            window2 = sg.Window('Decrypt', layout2)
+
+            while True:
+                event2, values2 = window2.read()
+                if event2 == sg.WIN_CLOSED:
+                    break
+                if event2 == 'Descriptografar':
+                    text = values2['-TEXT-']
+                    with open('chave.key', 'rb') as filekey:
+                        key = filekey.read()
+                    descriptografado = decrypt(text.encode(), key)
+
+                    layout3 = [[sg.Text('Resultado:')],
+                               [sg.Input(key='-RESULT-', default_text=descriptografado, size=(80, 5))],
+                               [sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
+
+                    window3 = sg.Window('Resultado', layout3)
+
+                    while True:
+                        event3, _ = window3.read()
+                        if event3 == sg.WIN_CLOSED or event3 == 'Fechar':
+                            break
+                        if event3 == 'Salvar':
+                            filename = sg.popup_get_file('Salvar como', save_as=True)
+                            if filename:
+                                with open(filename, 'w') as f:
+                                    f.write(descriptografado)
+                        if event3 == 'Download':
+                            filename = sg.popup_get_file('Salvar como', save_as=True)
+                            if filename:
+                                with open(filename, 'w') as f:
+                                    f.write(descriptografado.encode())
+
+                    window3.close()
+
+            window2.close()
+
+        window.close()
+
+if __name__ == '__main__':
+    main()
