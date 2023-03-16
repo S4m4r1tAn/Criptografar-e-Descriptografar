@@ -12,7 +12,7 @@ def decrypt(text, key):
 
 def main():
     sg.theme('Python')
-
+    
     layout = [[sg.Text('Escolha uma opção:')],
               [sg.Button('Encrypt'), sg.Button('Decrypt')]]
 
