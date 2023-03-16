@@ -25,7 +25,7 @@ def main():
         if event == 'Encrypt':
             layout2 = [[sg.Text('Insira o texto a ser criptografado:')],
                        [sg.Input(key='-TEXT-')],
-                       [sg.Button('Abrir'), sg.Button('Criptografar')]]
+                       [sg.Button('Criptografar')]]
 
             window2 = sg.Window('Encrypt', layout2)
 
@@ -33,12 +33,6 @@ def main():
                 event2, values2 = window2.read()
                 if event2 == sg.WIN_CLOSED:
                     break
-                if event2 == 'Abrir':
-                    filename = sg.popup_get_file('Abrir arquivo')
-                    if filename:
-                        with open(filename, 'rb') as f:
-                            text = f.read()
-                            window2['-TEXT-'].update(text.decode())
                 if event2 == 'Criptografar':
                     text = values2['-TEXT-']
                     with open('chave.key', 'rb') as filekey:
@@ -68,7 +62,7 @@ def main():
                         if event3 == 'Salvar':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
                             if filename:
-                                with open(filename, 'wb') as f:
+                                with open(filename, 'w') as f:
                                     f.write(criptografado)
                         if event3 == 'Download':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
@@ -83,7 +77,7 @@ def main():
         if event == 'Decrypt':
             layout2 = [[sg.Text('Insira o texto a ser descriptografado:')],
                        [sg.Input(key='-TEXT-')],
-                       [sg.Button('Abrir'), sg.Button('Descriptografar')]]
+                       [sg.Button('Descriptografar')]]
 
             window2 = sg.Window('Decrypt', layout2)
 
@@ -91,12 +85,6 @@ def main():
                 event2, values2 = window2.read()
                 if event2 == sg.WIN_CLOSED:
                     break
-                if event2 == 'Abrir':
-                    filename = sg.popup_get_file('Abrir arquivo')
-                    if filename:
-                        with open(filename, 'rb') as f:
-                            text = f.read()
-                            window2['-TEXT-'].update(text.decode())
                 if event2 == 'Descriptografar':
                     text = values2['-TEXT-']
                     with open('chave.key', 'rb') as filekey:
@@ -115,8 +103,8 @@ def main():
                             break
                         if event3 == 'Salvar':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
-                            if filename:
-                                with open(filename, 'wb') as f:
+                            if filename:                         
+                                with open(filename, 'w') as f:
                                     f.write(descriptografado)
                         if event3 == 'Download':
                             filename = sg.popup_get_file('Salvar como', save_as=True)
