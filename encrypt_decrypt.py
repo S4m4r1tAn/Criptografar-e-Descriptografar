@@ -40,8 +40,8 @@ def main():
                     criptografado = encrypt(text, key)
 
                     layout3 = [[sg.Text('Resultado:')],
-                               [sg.Input(key='-RESULT-', default_text=criptografado.decode(), size=(80, 5))],
-                               [sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
+                               [sg.Multiline(key='-RESULT-', default_text=criptografado.decode(), size=(80, 5))],
+                               [sg.Button('Visualizar'), sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
 
                     window3 = sg.Window('Resultado', layout3)
 
@@ -59,6 +59,8 @@ def main():
                             if filename:
                                 with open(filename, 'w') as f:
                                     f.write(descriptografado.encode())
+                        if event3 == 'Visualizar':
+                            sg.popup_scrolled(criptografado.decode(), title='Resultado Criptografado')
 
                     window3.close()
 
@@ -82,8 +84,8 @@ def main():
                     descriptografado = decrypt(text.encode(), key)
 
                     layout3 = [[sg.Text('Resultado:')],
-                               [sg.Input(key='-RESULT-', default_text=descriptografado, size=(80, 5))],
-                               [sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
+                               [sg.Multiline(key='-RESULT-', default_text=descriptografado.decode(), size=(80, 5))],
+                               [sg.Button('Visualizar'), sg.Button('Salvar'), sg.Button('Download'), sg.Button('Fechar')]]
 
                     window3 = sg.Window('Resultado', layout3)
 
@@ -101,6 +103,8 @@ def main():
                             if filename:
                                 with open(filename, 'w') as f:
                                     f.write(descriptografado.encode())
+                        if event3 == 'Visualizar':
+                            sg.popup_scrolled(descriptografado.decode(), title='Resultado Descriptorgafado')
 
                     window3.close()
 
