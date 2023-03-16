@@ -1,5 +1,5 @@
 from cryptography.fernet import Fernet
-# from PySimpleGUI import PySimpleGUI as sg
+
 
 # chave = Fernet.generate_key()
 
